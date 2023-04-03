@@ -40,7 +40,14 @@ public class SolidLayer extends BaseLayer {
       return;
     }
 
-    int opacity = transform.getOpacity() == null ? 100 : transform.getOpacity().getValue();
+    int opacity = 100;
+    BaseKeyframeAnimation<?, Integer> transformKeyframeAnimation = transform.getOpacity();
+    if (transformKeyframeAnimation != null) {
+      Integer opacityValue = transformKeyframeAnimation.getValue();
+      if (opacityValue != null) {
+        opacity = opacityValue;
+      }
+    }
     int alpha = (int) (parentAlpha / 255f * (backgroundAlpha / 255f * opacity / 100f) * 255);
     paint.setAlpha(alpha);
     if (colorFilterAnimation != null) {
